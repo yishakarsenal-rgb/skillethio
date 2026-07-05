@@ -1,0 +1,198 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================================================
+   Global resets & Ethiopic-friendly base
+   ========================================================================== */
+:root {
+  color-scheme: light dark;
+  --ethio-green: #10b981;
+  --ethio-gold: #f59e0b;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  font-feature-settings: 'kern' 1, 'liga' 1;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Ethiopic typography refinements */
+[lang='am'] {
+  font-family: 'Noto Sans Ethiopic', 'Abyssinica SIL', system-ui, sans-serif;
+  letter-spacing: 0.01em;
+}
+
+/* ==========================================================================
+   3D Floating shapes (background layer)
+   ========================================================================== */
+.bg-grid {
+  background-image:
+    linear-gradient(rgba(16, 185, 129, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(16, 185, 129, 0.08) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.bg-grid-dark {
+  background-image:
+    linear-gradient(rgba(16, 185, 129, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(16, 185, 129, 0.07) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* Floating geometric blobs */
+.shape-blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(40px);
+  opacity: 0.55;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.shape-cube {
+  position: absolute;
+  pointer-events: none;
+  will-change: transform;
+}
+
+/* Isometric cube (built with two faces) */
+.iso-cube {
+  width: 80px;
+  height: 80px;
+  position: relative;
+  transform-style: preserve-3d;
+  animation: isoSpin 18s linear infinite;
+}
+.iso-cube .face {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border: 2px solid rgba(16, 185, 129, 0.6);
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.25), rgba(245, 158, 11, 0.15));
+  box-shadow: 0 0 24px rgba(16, 185, 129, 0.35);
+}
+.iso-cube .front { transform: translateZ(40px); }
+.iso-cube .back  { transform: rotateY(180deg) translateZ(40px); }
+.iso-cube .right { transform: rotateY(90deg)  translateZ(40px); }
+.iso-cube .left  { transform: rotateY(-90deg) translateZ(40px); }
+.iso-cube .top   { transform: rotateX(90deg)  translateZ(40px); }
+.iso-cube .bottom{ transform: rotateX(-90deg) translateZ(40px); }
+
+@keyframes isoSpin {
+  0%   { transform: rotateX(-15deg) rotateY(0deg); }
+  100% { transform: rotateX(-15deg) rotateY(360deg); }
+}
+
+/* 3D card lift */
+.card-3d {
+  transform-style: preserve-3d;
+  transition: transform 350ms cubic-bezier(.21,1.02,.73,1), box-shadow 350ms ease;
+}
+.card-3d:hover {
+  transform: translateY(-4px) rotateX(2deg) rotateY(-2deg);
+}
+
+/* Glass panel */
+.glass {
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+}
+
+/* Shimmer for XP bar fill */
+.shimmer-bar {
+  background-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.35) 50%,
+    transparent 100%
+  );
+  background-size: 400px 100%;
+  animation: shimmer 2.4s linear infinite;
+}
+
+/* Focus ring tuned for both themes */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 2px solid #10b981;
+  outline-offset: 3px;
+  border-radius: 8px;
+}
+
+/* Smooth theme transitions */
+* {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-duration: 300ms;
+  transition-timing-function: ease;
+}
+
+/* Custom scrollbar (dark-mode aware) */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #10b981, #f59e0b);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-track { background: transparent; }
+
+/* ==========================================================================
+   Reusable button styles
+   ========================================================================== */
+.btn-primary {
+  @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl
+         font-semibold tracking-wide
+         bg-ethio-green text-white
+         shadow-iso-green
+         hover:shadow-iso-green-lg hover:-translate-y-0.5
+         active:translate-y-0 active:shadow-iso-green
+         transition-all duration-200;
+}
+.btn-gold {
+  @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl
+         font-semibold tracking-wide
+         bg-ethio-gold text-ethio-dark
+         shadow-iso-gold
+         hover:shadow-iso-gold-lg hover:-translate-y-0.5
+         active:translate-y-0 active:shadow-iso-gold
+         transition-all duration-200;
+}
+.btn-ghost {
+  @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl
+         font-medium border border-ethio-green/40 text-ethio-green
+         hover:bg-ethio-green/10
+         transition-all duration-200;
+}
+
+/* Animated gradient text */
+.gradient-text {
+  background: linear-gradient(120deg, #10b981 0%, #f59e0b 60%, #10b981 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer 6s linear infinite;
+}
+
+/* Soft inner ring for the dark mode glow */
+.dark .card-elevated {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 0 0 1px rgba(16, 185, 129, 0.15),
+    0 20px 60px -20px rgba(16, 185, 129, 0.25);
+}
+
+/* Pulse ring for streak badge */
+@keyframes ringPulse {
+  0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.55); }
+  70% { box-shadow: 0 0 0 14px rgba(245, 158, 11, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
+}
+.ring-pulse {
+  animation: ringPulse 2s infinite;
+}
