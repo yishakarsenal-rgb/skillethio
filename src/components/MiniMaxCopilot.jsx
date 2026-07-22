@@ -45,7 +45,6 @@ const MiniMaxCopilot = () => {
     e?.preventDefault();
     const trimmed = draft.trim();
     if (!trimmed) return;
-    // Static build: always show the same bilingual response after the user types.
     setMessages((prev) => [
       ...prev,
       { role: "user", text: trimmed },
@@ -63,7 +62,7 @@ const MiniMaxCopilot = () => {
           : "bg-white border-ethio-green/30 shadow-iso-light",
       ].join(" ")}
     >
-      {/* Header */}
+      {/* header */}
       <div className="px-5 py-4 border-b border-ethio-green/20 flex items-center gap-3">
         <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-ethio-green to-ethio-gold shadow-iso-green flex items-center justify-center font-display font-bold text-ethio-dark">
           M
@@ -78,7 +77,7 @@ const MiniMaxCopilot = () => {
         </span>
       </div>
 
-      {/* Messages */}
+      {/* messages */}
       <div className="px-5 py-5 space-y-4 max-h-[420px] overflow-y-auto">
         <AssistantBubble>{t("copilotIntro")}</AssistantBubble>
 
@@ -108,7 +107,7 @@ const MiniMaxCopilot = () => {
         )}
       </div>
 
-      {/* Input */}
+      {/* input */}
       <form
         onSubmit={askCopilot}
         className={[
