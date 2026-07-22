@@ -14,7 +14,7 @@ const getInitialLang = () => {
   if (typeof window === 'undefined') return 'en';
   const stored = window.localStorage.getItem(STORAGE_KEY);
   if (stored === 'en' || stored === 'am') return stored;
-  // Default: Amharic, to lead with the local language for Ethiopian students.
+  // Default: Amharic
   return 'am';
 };
 
@@ -25,8 +25,7 @@ export const LanguageProvider = ({ children }) => {
     document.documentElement.lang = lang;
     try {
       window.localStorage.setItem(STORAGE_KEY, lang);
-    } catch (_) {
-      /* ignore */
+
     }
   }, [lang]);
 
